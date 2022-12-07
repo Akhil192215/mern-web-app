@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { ToastContainer, toast } from "react-toastify";
 
-function Login() {
+function AdminLogin() {
   const [cookies] = useCookies([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -22,7 +22,7 @@ function Login() {
     event.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/login",
+        "http://localhost:4000/admin-login",
         {
           ...values,
         },
@@ -34,7 +34,7 @@ function Login() {
           if (email) generateError(email);
           else if (password) generateError(password);
         } else {
-          navigate("/");
+          navigate("/admin-dashboard");
         }
       }
     } catch (ex) {
@@ -43,7 +43,7 @@ function Login() {
   };
   return (
     <div className="container">
-      <h2>Login to your Account</h2>
+      <h2>Admin Login</h2>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div>
           <label htmlFor="email">Email</label>
@@ -68,13 +68,10 @@ function Login() {
           />
         </div>
         <button type="submit">Submit</button>
-        <span>
-          Don't have an account ?<Link to="/register"> Register </Link>
-        </span>
       </form>
       <ToastContainer />
     </div>
   );
 }
 
-export default Login;
+export default AdminLogin;

@@ -2,11 +2,36 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify'
 import axios from 'axios'
+
+
 function Register() {
+ const [img, setImg] = useState('')
+
+    function previewFile() {
+    const preview = document.querySelector('img');
+    const file = document.querySelector('input[type=file]').files[0];
+    const reader = new FileReader();
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+
+    reader.addEventListener("load", () => {
+      // convert image file to base64 string
+      preview.src = reader.result;
+      setImg(reader.result)
+      console.log(reader.result);
+    }, false);
+
+  }
+
+
   const [values, setValues] = useState({
     email: '',
-    password: ''
+    password: '',
+    profile: ''
   })
+
+
   const naviagate = useNavigate()
   const generateErrors = (err) => {
     toast.error(err, { position: 'top-right' })
@@ -15,8 +40,9 @@ function Register() {
     e.preventDefault()
     try {
       const { data } = await axios.post("http://localhost:4000/register", {
-        ...values,
+        ...values,img,
       }, { withCredentials: true });
+
       if (data) {
         if (data.errors) {
           const { email, password } = data.errors;
@@ -43,6 +69,7 @@ function Register() {
           <label htmlFor="password">Password</label>
           <input type="password" name='password' placeholder='Password' onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })} />
         </div>
+    
         <button type='submit' >Submit</button>
         <span>
           Already have an account <Link to='/login' >Login</Link>
