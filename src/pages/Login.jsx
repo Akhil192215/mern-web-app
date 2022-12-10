@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { ToastContainer, toast } from "react-toastify";
 
-function Login() {
+function Login({dependency}) {
   const [cookies] = useCookies([]);
   const navigate = useNavigate();
   useEffect(() => {
@@ -34,6 +34,7 @@ function Login() {
           if (email) generateError(email);
           else if (password) generateError(password);
         } else {
+          dependency(true)
           navigate("/");
         }
       }

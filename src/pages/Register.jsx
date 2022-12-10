@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
+import {useDispatch} from 'react-redux'
 import { Link, useNavigate } from "react-router-dom"
 import { ToastContainer, toast } from 'react-toastify'
 import axios from 'axios'
 
 
-function Register() {
- const [img, setImg] = useState('')
 
-    function previewFile() {
+
+function Register() {
+  const [img, setImg] = useState('')
+  const dispatch = useDispatch()
+  function previewFile() {
     const preview = document.querySelector('img');
     const file = document.querySelector('input[type=file]').files[0];
     const reader = new FileReader();
@@ -31,6 +34,7 @@ function Register() {
     profile: ''
   })
 
+  
 
   const naviagate = useNavigate()
   const generateErrors = (err) => {
@@ -40,7 +44,7 @@ function Register() {
     e.preventDefault()
     try {
       const { data } = await axios.post("http://localhost:4000/register", {
-        ...values,img,
+        ...values, img,
       }, { withCredentials: true });
 
       if (data) {
@@ -49,7 +53,7 @@ function Register() {
           if (email) generateErrors(email)
           else if (password) generateErrors(password)
         } else {
-          naviagate('/')
+          naviagate('/login')
         }
       }
     } catch (err) {
@@ -69,7 +73,7 @@ function Register() {
           <label htmlFor="password">Password</label>
           <input type="password" name='password' placeholder='Password' onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })} />
         </div>
-    
+
         <button type='submit' >Submit</button>
         <span>
           Already have an account <Link to='/login' >Login</Link>

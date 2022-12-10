@@ -15,6 +15,8 @@ import Navbar from './pages/Navbar'
 import CreateUser from './pages/CreateUser'
 function App() {
   const [img, setImg] = useState([])
+  const [email, seteEmail] = useState([])
+  const [value, setValue] = useState()
   const getUsers = async () => {
     try {
 
@@ -23,29 +25,27 @@ function App() {
     }
   }
 
-
-
+ 
+  let dependency = true
 
   useEffect(() => {
     axios.get('http://localhost:4000/userHome').then((data) => {
-      setImg(data.data)
+      setImg(data.data.profile)
+      seteEmail(data.data.email)
+      console.log(data.data);
     })
-  },[img])
-
-
-
-
-
+  }, [value])
+  console.log('dependency', dependency);
   return (
-    <AppContext.Provider value={img} >
+    <AppContext.Provider value={{ img, email, dependency }} >
 
       <BrowserRouter>
 
         <Routes>
 
           <Route exact path='/register' element={<Register />} />
-          <Route exact path='/login' element={<Login />} />
-          <Route exact path='/' element={<div><Navbar /><Secret /></div>} />
+          <Route exact path='/login' element={<Login dependency={setValue} />} />
+          <Route exact path='/' element={<div><Navbar dependency={setValue} /><Secret /></div>} />
           <Route exact path='/user' element={<UserProfile name={setImg} />} />
           <Route exact path='/admin-login' element={<AdminLogin />} />
           <Route exact path='/admin-dashboard' element={<Dashboard />} />

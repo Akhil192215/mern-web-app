@@ -63,7 +63,7 @@ function Dashboard() {
       name: 'User Profile ',
       selector: (row) => <img width={80} height={80} style={{ borderRadius: '50px' }} src={`http://localhost:4000/userProfiles/${row.profile}`} />
     },
-    {
+    {   
       name: 'Edit',
       cell: row => <button onClick={() => editHandler(row._id)} >Edit</button>
     },
@@ -83,8 +83,9 @@ function Dashboard() {
 
   useEffect(() => {
     const result = user.filter(user => {
-      return user.name.toLowerCase().match(search.to)
+      return user.email.toLowerCase().match(search.toLowerCase())
     })
+    setFilterdUser(result)
   }, [search])
 
   const createHandler = () => {
@@ -93,11 +94,11 @@ function Dashboard() {
 
   return (
 
-    <div>
+    <div className='dash'>
       <h2>Users List</h2>
       <button onClick={createHandler} >Create</button>
-      <DataTable className={'table'}
-        columns={columns} data={user} rogressPending={pending} pagination fixedHeader
+      <DataTable className='dash'
+        columns={columns} data={filterduser} rogressPending={pending}  fixedHeader
         subHeader
         subHeaderComponent={
           <input type="text" placeholder='search here'

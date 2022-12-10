@@ -80,14 +80,14 @@ const passwordHandler = (e) => {
       <form onSubmit={(e) => { submitHandler(e) }}>
         <div>
           <label htmlFor="email">Email</label>
-          <input type="email" name='email' placeholder='Email' onChange={emailHandler} />
+          <input type="email" name='email' placeholder='Email' onChange={emailHandler}  required />
         </div>
         <div>
           <label htmlFor="password">Password</label>
-          <input type="password" name='password' placeholder='Password' onChange={passwordHandler} />
+          <input type="password" name='password' placeholder='Password' onChange={passwordHandler} required/>
         </div>
         <div>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">image </label>
           <input type="file" name='file' onChange={imageHandler} />
         </div>
     

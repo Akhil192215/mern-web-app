@@ -23,9 +23,15 @@ function UserProfile({ name }) {
         console.log(...formData, "-------------------------------");
         const { data } = await axios.post("http://localhost:4000/user", formData)
         imgPath = '1669915027342-pexels-jonathan-borba-9703870.jpg'
-        setImgName(data)
+        if(data){
+              setImgName(data)
         name(data)
         console.log(data, '=================================');
+        navigate("/");
+        }else{
+
+        }
+      
     }
 
     const arry = [];
@@ -38,7 +44,6 @@ function UserProfile({ name }) {
         setTimeout(() => {
             navigate("/");
         }, 2000)
-
     }
     return (
         <div>
@@ -46,9 +51,9 @@ function UserProfile({ name }) {
                 <div>
                     <img src={`http://localhost:4000/userProfiles/${imgName}`} style={{ width: 250, borderRadius: '500px' }} alt="" />
                     <label htmlFor="password">Password</label>
-                    <input type="file" name='image' onChange={imageHandler} />
+                    <input type="file" name='image' onChange={imageHandler} required  />
                 </div>
-                <button onClick={updatePro} type='submit' >Update</button>
+                <button type='submit'>Update</button>
             </form></div>
     )
 }

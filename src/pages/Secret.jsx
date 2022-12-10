@@ -5,10 +5,11 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { AppContext } from '../AppContext'
 export default function Cards() {
-  const value = useContext(AppContext)
+ 
 
+  const {email }= useContext(AppContext)
+console.log(email);
   const [imgData, setImgData] = useState()
-
   const id = 'secret'
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies([]);
@@ -17,7 +18,6 @@ export default function Cards() {
       if (!cookies.jwt) {
         navigate("/login");
       } else {
-        
         const { data } = await axios.post(
           "http://localhost:4000",
           {},
@@ -46,17 +46,18 @@ export default function Cards() {
 
     navigate("/user");
   };
-  useEffect(() => {
-    setImgData(value)
-  }, [value])
+  // useEffect(() => {
+  //   setImgData(value)
+  // }, [value])
+const uname = email
 
-
+const usename = uname.slice(0,5)
   return (
 
     <>
       <div className="private">
         <div className="userName">
-        <h4>Welcome user </h4>
+        <h6 className="welcome">Welcome   <span>  {usename}</span> </h6> 
         </div>
       
 

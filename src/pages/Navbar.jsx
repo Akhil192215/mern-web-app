@@ -4,19 +4,41 @@ import '../CSS/nav.css'
 import { AppContext } from '../AppContext'
 import { Navigate, useNavigate } from 'react-router';
 import { useCookies } from "react-cookie";
+import { confirmAlert } from 'react-confirm-alert';
+function Navbar({dependency}) {
 
-function Navbar() {
   const navigate = useNavigate();
-  let value = useContext(AppContext)
+  let { img } = useContext(AppContext)
+
   const [imgName, setImgName] = useState('1670229136895-PngItem_5040528.png')
-useEffect(()=>{
-  setImgName(value)
-})
+  useEffect(() => {
+    setImgName(img)
+  })
 
   const [cookies, setCookie, removeCookie] = useCookies([]);
   const logOut = () => {
-    removeCookie("jwt");
-    navigate("/login");
+    confirmAlert({
+      title: 'Logout confirm',
+      message: 'Are you sure to do this.',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => {
+            removeCookie("jwt");
+            dependency(false)
+            navigate("/login");
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => alert('Click No')
+        }
+      ]
+    });
+
+
+
+
   };
   const profile = () => {
     navigate("/user");
@@ -24,7 +46,6 @@ useEffect(()=>{
   return (
     <>
       <ul className='nav'>
-
         <div className='container-1'>
           <div className="nav-items">
             <h2 className='logo'>Logo</h2>
